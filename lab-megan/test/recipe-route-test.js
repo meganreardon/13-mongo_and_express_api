@@ -44,7 +44,7 @@ describe('Recipe Routes', function() {
           done();
         });
       });
-      
+
     });
   });
 
@@ -82,6 +82,53 @@ describe('Recipe Routes', function() {
           if (err) return done(err);
           expect(res.status).to.equal(200);
           expect(res.body.title).to.equal('test recipe title');
+          done();
+        });
+      });
+
+    });
+  });
+
+// ---------
+// PUT tests
+// ---------
+
+  // describe('PUT: /api/recipe:id', function() { // orig
+  describe('PUT: /api/recipe', function() {
+
+    describe('with a valid body', function() {
+      before( done => {
+        exampleRecipe.created = new Date();
+        new Recipe(exampleRecipe).save()
+        .then( recipe => {
+          this.tempRecipe = recipe;
+          done();
+        })
+        .catch(done);
+      });
+
+      after( done => {
+        delete exampleRecipe.created;
+        if(this.tempRecipe) {
+          Recipe.remove({})
+          .then(() => done())
+          .catch(done);
+          return;
+        }
+        done();
+      });
+
+      it('should return a recipe', done => {
+        let updateRecipe = { title: 'new title' }; // NOTE: need new Date?
+        request.put(`${url}/api/recipe/${this.tempRecipe._id}`)
+        .send(updateRecipe)
+        .end((err, res) => {
+          if (err) return done(err);
+          expect(res.status).to.equal(200);
+          expect(res.body.id).to.equal(this.tempRecipe.id);
+          for (var prop in updateRecipe) {
+            expect(res.body[prop]).to.equal(updateRecipe[prop]);
+          }
           done();
         });
       });
