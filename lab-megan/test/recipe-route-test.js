@@ -99,9 +99,12 @@ describe('Recipe Routes', function() {
     describe('with a valid body', function() {
       before( done => {
         exampleRecipe.created = new Date();
+        // console.log('::: exampleRecipe in PUT test is:', exampleRecipe);
         new Recipe(exampleRecipe).save()
         .then( recipe => {
           this.tempRecipe = recipe;
+          // console.log('::: HERE tempRecipe in PUT test is:', this.tempRecipe);
+          // console.log('::: HERE exampleRecipe is:', exampleRecipe);
           done();
         })
         .catch(done);
@@ -125,7 +128,12 @@ describe('Recipe Routes', function() {
         .end((err, res) => {
           if (err) return done(err);
           expect(res.status).to.equal(200);
-          expect(res.body.id).to.equal(this.tempRecipe.id);
+          console.log('::: inside recipe-route-test.js, res.body is', res.body);
+          // console.log('::: inside recipe-route-test.js, res.params.id is', res.params.id); // TODO: WHY DO WE NOT REACH THIS?
+          // console.log('::: res.body.id is', res.body.id);
+          console.log('::: inside recipe-route-test.js, this.tempRecipe.id is', this.tempRecipe.id);
+          console.log('::: inside recipe-route-test.js, res.body.id is', res.body._id);
+          expect(res.body._id).to.equal(this.tempRecipe.id);
           for (var prop in updateRecipe) {
             expect(res.body[prop]).to.equal(updateRecipe[prop]);
           }
