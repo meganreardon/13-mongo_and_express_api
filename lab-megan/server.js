@@ -5,8 +5,8 @@ const morgan = require('morgan');
 const cors = require('cors');
 const Promise = require('bluebird');
 const mongoose = require('mongoose');
-const recipeRouter = require('./route/recipe-route.js');
 const debug = require('debug')('recipe:server');
+const recipeRouter = require('./route/recipe-route.js');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
