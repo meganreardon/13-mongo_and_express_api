@@ -9,6 +9,7 @@ const recipeRouter = module.exports = new Router();
 recipeRouter.post('/api/recipe', jsonParser, function(req, res, next) {
   debug('POST: /api/recipe');
 
+  // console.log('::: inside recipe-route.js POST method');
   req.body.created = new Date();
   new Recipe(req.body).save()
   .then( recipe => res.json(recipe))
@@ -18,7 +19,17 @@ recipeRouter.post('/api/recipe', jsonParser, function(req, res, next) {
 recipeRouter.get('/api/recipe/:id', function(req, res, next) {
   debug('GET: /api/recipe/:id');
 
+  // console.log('::: inside recipe-route.js GET method');
   Recipe.findById(req.params.id)
+  .then( recipe => res.json(recipe))
+  .catch(next);
+});
+
+recipeRouter.put('/api/recipe/:id', jsonParser, function(req, res, next) {
+  debug('PUT: /api/recipe/:id');
+
+  // console.log('::: inside recipe-route.js PUT method');
+  Recipe.findByIdAndUpdate(req.params.id, req.body, {new: true})
   .then( recipe => res.json(recipe))
   .catch(next);
 });
