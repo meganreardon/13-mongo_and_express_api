@@ -4,8 +4,8 @@
   "description": "",
   "main": "gulpfile.js",
   "scripts": {
-    "test": "DEBUG='list*' mocha",
-    "start": "DEBUG='list*' node server.js"
+    "test": "DEBUG='recipes*' mocha",
+    "start": "DEBUG='recipes*' node server.js"
   },
   "keywords": [],
   "author": "",
